@@ -91,7 +91,7 @@ a {
 }
 .section {
 	position: relative;
-	margin-top: 86px;
+	margin-top: 26px;
 	min-width: 960px;
 	width: 960px;
 	margin-left: auto;
@@ -101,11 +101,64 @@ a {
 .cont {
 	display: inline-block;
 	vertical-align: top;
+	min-width: 600px;
+	width: 600px;
+	min-height: 180px;
+	position: relative;
+	z-index: 4;
+	margin-left: 190px;
+	margin-top: 0px;
+	overflow: visible;
+}
+.para {
+	text-indent: 0;
+	padding-top: 13pt;
+	margin-top: 0pt;
+	margin-bottom: -13pt;
+	text-align: center;
+}
+.font {
+	font-family: "Arial Unicode MS", sans-serif;
+	font-size: 47.25pt;
+	font-weight: 400;
+	font-style: normal;
+	text-decoration: underline;
+	color: rgb(0,0,0);
+	line-height: 88.63pt;
+	letter-spacing: normal;
+}
+.cont-2 {
+	overflow: hidden;
+}
+.cont-3 {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 576px;
+	width: 576px;
+	min-height: 284px;
+	position: relative;
+	margin-left: 294px;
+	margin-top: 9px;
+}
+.colwrapper {
+	display: inline-block;
+	vertical-align: top;
 	min-width: 336px;
 	width: 336px;
 	min-height: 284px;
 	position: relative;
-	margin-left: 266px;
+	margin-left: 0px;
+	margin-top: 0px;
+	line-height: 0;
+}
+.cont-4 {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 336px;
+	width: 336px;
+	min-height: 284px;
+	position: relative;
+	margin-left: 0px;
 	margin-top: 0px;
 	height: 284px;
 }
@@ -113,18 +166,71 @@ a {
 	position: absolute;
 	left: 0;
 	width: 336px;
-	height: 284px;
-	top: 0;
+	height: 236px;
+	top: 24px;
 }
-.cont-2 {
+.colwrapper-2 {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 152px;
+	width: 152px;
+	min-height: 117px;
+	position: relative;
+	margin-left: 88px;
+	margin-top: 51px;
+	line-height: 0;
+}
+.cont-5 {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 152px;
+	width: 152px;
+	min-height: 117px;
+	position: relative;
+	z-index: 5;
+	margin-left: 0px;
+	margin-top: 0px;
+}
+.button {
+	width: 152px;
+	display: inline-block;
+	overflow: hidden;
+	border: 0;
+	background-color: rgb(42,161,152);
+	font-family: "Arial Unicode MS", sans-serif;
+	font-size: 9.00pt;
+	font-weight: 400;
+	font-style: normal;
+	text-decoration: none;
+	color: rgb(0,0,0);
+	line-height: 12.06pt;
+	letter-spacing: normal;
+	text-indent: 0;
+	text-align: center;
+	padding-top: 50px;
+	margin-top: 0;
+	margin-bottom: 0;
+	height: 67px;
+}
+.button:hover {
+	background-color: rgb(130,147,158);
+	border-color: rgb(0,0,0);
+	color: rgb(0,0,0);
+}
+.button:active {
+	background-color: rgb(82,100,111);
+	border-color: rgb(0,0,0);
+	color: rgb(255,255,255);
+}
+.cont-6 {
 	display: inline-block;
 	vertical-align: top;
 	min-width: 500px;
 	width: 500px;
 	min-height: 350px;
 	position: relative;
-	margin-left: 130px;
-	margin-top: 29px;
+	margin-left: 240px;
+	margin-top: 15px;
 }
 .gallery .slider {
 	height: 350px;
@@ -145,3 +251,20 @@ a {
 [dir="rtl"] .gallery .slick-next {right: auto;left: -25px;}
 [dir="rtl"] .gallery .slick-prev {right: -25px;left: auto;}
 .slider img { width: 100%; }
+.cont-7 {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 600px;
+	width: 600px;
+	min-height: 400px;
+	position: relative;
+	margin-left: 218px;
+	margin-top: 17px;
+}
+.map {
+	line-height: 1.5;
+}
+.map-label {
+	font-size: 12px;
+	line-height: 1.5;
+}
