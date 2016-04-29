@@ -3,7 +3,7 @@
 
 $(document).ready(function() {
 r = function() {
-$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/image-1008.png' : 'images/image-672.png') : 'images/image-336.png');
+$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/1-1500-1008.png' : 'images/1-1500-672.png') : 'images/1-1500-336.png');
 var a='data-lazy'; if($('.gallery .slide0').hasAttr('src')) { a='src'; } $('.gallery .slide0').attr(a, (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/new-1500.png' : 'images/new-1000.png') : 'images/new-500.png');
 var a='data-lazy'; if($('.gallery .slide1').hasAttr('src')) { a='src'; } $('.gallery .slide1').attr(a, (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/zhan-wei-fu-1500.jpg' : 'images/zhan-wei-fu-1000.jpg') : 'images/zhan-wei-fu-500.jpg');};
 $(window).resize(r);
