@@ -3,7 +3,7 @@
 
 $(document).ready(function() {
 r = function() {
-$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1053.jpg' : 'images/bgirl-702.jpg') : 'images/bgirl-351.jpg');};
+$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1431.jpg' : 'images/bgirl-954.jpg') : 'images/bgirl-477.jpg');};
 $(window).resize(r);
 r();
 
