@@ -3,8 +3,12 @@
 
 $(document).ready(function() {
 r = function() {
-$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1053.jpg' : 'images/bgirl-702.jpg') : 'images/bgirl-351.jpg');};
+var a='data-lazy'; if($('.img').hasAttr('src')) { a='src'; } $('.img').attr(a, (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/ming-ren-2880.jpg' : 'images/ming-ren-1920.jpg') : 'images/ming-ren-960.jpg');
+$('.img-2').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1053.jpg' : 'images/bgirl-702.jpg') : 'images/bgirl-351.jpg');};
 $(window).resize(r);
 r();
-var mapOptions = {zoom: 11,center: new google.maps.LatLng(40.6700, -73.9400),mapTypeId: google.maps.MapTypeId.ROADMAP,};var map = new google.maps.Map($('.map').get(0), mapOptions);
+$('.anchor').mouseenter(function() { $.loadImages((window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/ming-ren-2400.jpg' : 'images/ming-ren-1600.jpg') : 'images/ming-ren-800.jpg', function() { }) });
+$('.anchor').magnificPopup({ type: 'image', closeOnContentClick: true, closeBtnInside: false, mainClass: 'mfp-no-margins mfp-with-zoom', image: { verticalFit: true }, zoom: { enabled: true, duration: 300 }, callbacks: { elementParse: function(item) { item.src = (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/ming-ren-2400.jpg' : 'images/ming-ren-1600.jpg') : 'images/ming-ren-800.jpg'; } } });
+$('.img').unveil(50);
+
 });
