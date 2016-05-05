@@ -3,8 +3,11 @@
 
 $(document).ready(function() {
 r = function() {
-$('.img').attr('src', (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1833.jpg' : 'images/bgirl-1222.jpg') : 'images/bgirl-611.jpg');};
+var a='data-lazy'; if($('.img').hasAttr('src')) { a='src'; } $('.img').attr(a, (window.devicePixelRatio > 1) ? ((window.devicePixelRatio > 2) ? 'images/bgirl-1833.jpg' : 'images/bgirl-1222.jpg') : 'images/bgirl-611.jpg');};
 $(window).resize(r);
 r();
+$('.anchor').mouseenter(function() { $.loadImages('images/bgirl.jpg', function() { }) });
+$('.anchor').magnificPopup({ type: 'image', closeOnContentClick: true, closeBtnInside: false, mainClass: 'mfp-no-margins mfp-with-zoom', image: { verticalFit: true }, zoom: { enabled: true, duration: 300 }, callbacks: { elementParse: function(item) { item.src = 'images/bgirl.jpg'; } } });
+$('.img').unveil(50);
 
 });
