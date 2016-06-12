@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html class="theme theme-white">
+<head>
+<meta charset="utf-8">
+<title>课程9.UITouch和手势</title>
+<link href="https://www.zybuluo.com/static/assets/template-theme-white.css" rel="stylesheet" media="screen">
+</head>
+<body class="theme theme-white">
+<div id="wmd-preview" class="wmd-preview wmd-preview-full-reader"><div class="md-section-divider"></div><img src="http://static.zybuluo.com/zhuoming/9y9ocj9x0iw2k87m7br254g1/logo.png" width="300" height="100"><span style="float:right;" data-anchor-id="pokg"><b>求知若渴 求真教育</b></span><div class="md-section-divider"></div><h1 data-anchor-id="k600" id="课程9uitouch和手势">课程9.UITouch和手势</h1><div class="md-section-divider"></div><h2 data-anchor-id="49l5" id="ios-ui"><code>iOS</code> <code>UI</code></h2><p data-anchor-id="k8qz"><div class="toc"><div class="toc">
+<ul>
+<li><a href="#课程9uitouch和手势">课程9.UITouch和手势</a><ul>
+<li><a href="#ios-ui">iOS UI</a></li>
+<li><a href="#一学习目标">一、学习目标</a></li>
+<li><a href="#二课程内容">二、课程内容</a><ul>
+<li><a href="#1uitouch">1.UITouch</a><ul>
+<li><a href="#uiview交互相关的属性">UIView交互相关的属性</a></li>
+<li><a href="#触摸响应">触摸响应</a></li>
+</ul>
+</li>
+<li><a href="#2手势">2.手势</a></li>
+</ul>
+</li>
+<li><a href="#三课程作业">三、课程作业</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</p><hr><div class="md-section-divider"></div><h2 data-anchor-id="j38n" id="一学习目标"><strong>一、学习目标</strong></h2><ul data-anchor-id="lvyo">
+<li>UITouch的实现流程</li>
+<li>学会使用各类手势</li>
+</ul><hr><div class="md-section-divider"></div><h2 data-anchor-id="eg4u" id="二课程内容"><strong>二、课程内容</strong></h2><div class="md-section-divider"></div><h3 data-anchor-id="lm6l" id="1uitouch"><strong>1.UITouch</strong></h3><p data-anchor-id="tyhs">UIView除了负责展示内容给用户外还负责响应用户事件。本章主要介绍UIView用户交互相关的属性和方法。</p><blockquote data-anchor-id="1smw" class="white-blockquote">
+  <p>结合第二章的内容学习。</p>
+</blockquote><div class="md-section-divider"></div><h4 data-anchor-id="gac4" id="uiview交互相关的属性">UIView交互相关的属性</h4><ul data-anchor-id="ooqk">
+<li><strong>userInteractionEnabled</strong>：默认是YES，如果设置为NO则不响应用户事件，并且把当前控件从事件队列中删除。也就是说设置了userInterfaceEnabled属性的视图会打断响应者链导致该view的subview都无法响应事件。</li>
+<li><strong>multipleTouchEnabled</strong>：默认是NO，如果设置为YES则支持多点触碰。</li>
+<li><strong>exclusiveTouch</strong>：默认是NO，如果设置为YES则当前UIView会独占整个Touch事件。具体来说就是如果UIView设置了exclusiveTouch属性为YES则当这个UIView成为第一响应者时，在手指离开屏幕前其他view不会响应任何touch事件。</li>
+</ul><div class="md-section-divider"></div><h4 data-anchor-id="n8c4" id="触摸响应">触摸响应</h4><p data-anchor-id="fuua">了解UIView的触碰响应之前，首先了解在iOS中触碰事件是什么，事件在视图模型中是如何传递的，视图在接收到一个事件是如何响应的。下面介绍触碰事件类UITouch和响应者链来解释事件的工作原理。 <br>
+在iOS中UITouch类代表触碰事件。当用户触摸屏幕后就会产生相应的事件，所有相关的UITouch对象都被包装在事件中，被程序交由特定的对象处理。UITouch对象包括触碰的详细信息。 <br>
+UITouch含有5个属性：</p><ul data-anchor-id="ooup">
+<li><strong>window</strong>：触碰产生时所处的窗口，由于窗口可能发生变化，当前所在的窗口不一定是最开始的窗口。</li>
+<li><strong>view</strong>：触碰产生时所处的视图。由于视图可能发生变化，当前视图也不一定是最初的视图。</li>
+<li><strong>tapCount</strong>：短时间内轻击（tap）屏幕的次数，可根据tapCount判断单击、双击或更多的轻击。</li>
+<li><strong>timestamp</strong>：时间戳记录了触碰事件产生或变化时的时间。单位是秒。</li>
+<li><p><strong>phase</strong>：触碰事件在屏幕上有一个周期，即触碰开始、触碰点移动、触碰结束，中途取消。通过phase可以查看当前触碰事件在一个周期中所处的状态。UITouchPhase是一个枚举：<code>UITouchPhaseBegan</code> <code>UITouchPhaseMoved</code> <code>UITouchPhaseStationary</code> <code>UITouchPhaseEnded</code> <code>UITouchPhaseCancelled</code></p>
+
+<p>　　当手指触碰到屏幕，无论是单点还是多点触碰，事件都会开始，直到用户所有的手指都离开屏幕。期间所有的UITouch对象都被封装在UIEvent事件对象中，由程序分发给处理者。事件记录了这个周期中所有触碰对象状态的变化。</p>
+
+<p>　　只要屏幕被触摸，系统会将诺干个触碰信息封装到UIEvent对象中发送给程序，由管理程序UIApplication对象将事件分发。 <br>
+　　响应者对象就是可以响应事件并对事件作出处理的对象。在iOS中UIResponder类定义了响应者对象的所有方法。UIApplication、UIWindow、UIViewController、UIView以及UIKit中继承自UIView的控件都间接或直接继承自UIResponder类，这些类都可以当做响应者。 <br>
+　　响应者链表示一系列响应者对象组成的事件传递的链条。当确定了第一响应者后，事件交由第一响应者处理，如果第一响应者不处理事件沿着响应者链传递，交给下一个响应者。一般来说，第一响应者是UIView对象或者UIView的子类对象，当其被触摸后事件交由它处理，如果它不处理，事件就会交给它的UIViewController处理（如果存在），然后是它的superview父视图对象，以此类推，直到顶层视图。如果顶层视图不处理则交给UIWindow对象处理，再到UIApplication对象（如果UIApplication继承自UIResponder）。如果整个响应者链都不响应这个事件则该事件被丢弃。 <br>
+　　![20130707181937406.jpeg-16kB][4] <br>
+　　 <br>
+　　UIView类继承了UIResponder类，要对事件作出处理还需要重写UIResponder类中定义的事件处理函数。根据不同的触碰状态，程序会调用相应的处理函数，这些函数包括： <br>
+<code>-(void) touchesBegan:(NSSet *)touches withEvents:(UIEvent *)event;</code> <br>
+<code>-(void) touchesMoved:(NSSet *)touches withEvents:(UIEvent *)event;</code> <br>
+<code>-(void) touchesEnded:(NSSet *)touches withEvents:(UIEvent *)event;</code> <br>
+<code>-(void) touchesCancelled:(NSSet *)touches withEvents:(UIEvent *)event;</code></p></li>
+</ul><p data-anchor-id="uxas">比如我们要拖动一个视图这里先在touchesBegan中通过[touch locationInView:self.view]获取手指触摸在当前视图上的位置，用CGPoint变量记录，然后在手指移动事件touchesMoved方法中获取触摸对象当前位置，并通过于与原始位置的差值计算出移动偏移量，再设置当前视图的位置。</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="c93l"><ol class="linenums"><li class="L0"><code><span class="com">// 记录开始的路径</span></code></li><li class="L1"><code><span class="typ">CGPoint</span><span class="pln"> originalLocation</span><span class="pun">;</span></code></li><li class="L2"><code><span class="pun">-(</span><span class="kwd">void</span><span class="pun">)</span><span class="pln">touchesBegan</span><span class="pun">:(</span><span class="typ">NSSet</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">touches withEvent</span><span class="pun">:(</span><span class="typ">UIEvent</span><span class="pln"> </span><span class="pun">*)</span><span class="kwd">event</span></code></li><li class="L3"><code><span class="pun">{</span></code></li><li class="L4"><code><span class="pln">    </span><span class="typ">UITouch</span><span class="pln"> </span><span class="pun">*</span><span class="pln">touch </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">touches anyObject</span><span class="pun">];</span></code></li><li class="L5"><code><span class="pln">    originalLocation </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">touch locationInView</span><span class="pun">:</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">view</span><span class="pun">];</span></code></li><li class="L6"><code><span class="pun">}</span></code></li><li class="L7"><code></code></li><li class="L8"><code><span class="pun">-(</span><span class="kwd">void</span><span class="pun">)</span><span class="pln">touchesMoved</span><span class="pun">:(</span><span class="typ">NSSet</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">touches withEvent</span><span class="pun">:(</span><span class="typ">UIEvent</span><span class="pln"> </span><span class="pun">*)</span><span class="kwd">event</span></code></li><li class="L9"><code><span class="pun">{</span></code></li><li class="L0"><code><span class="pln">    </span><span class="typ">UITouch</span><span class="pln"> </span><span class="pun">*</span><span class="pln">touch </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">touches anyObject</span><span class="pun">];</span></code></li><li class="L1"><code><span class="pln">    </span><span class="typ">CGPoint</span><span class="pln"> currentLocation </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">touch locationInView</span><span class="pun">:</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">view</span><span class="pun">];</span></code></li><li class="L2"><code><span class="pln">    </span><span class="typ">CGRect</span><span class="pln"> frame </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">view</span><span class="pun">.</span><span class="pln">frame</span><span class="pun">;</span></code></li><li class="L3"><code><span class="pln">    frame</span><span class="pun">.</span><span class="pln">origin</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+=</span><span class="pln"> currentLocation</span><span class="pun">.</span><span class="pln">x</span><span class="pun">-</span><span class="pln">originalLocation</span><span class="pun">.</span><span class="pln">x</span><span class="pun">;</span></code></li><li class="L4"><code><span class="pln">    frame</span><span class="pun">.</span><span class="pln">origin</span><span class="pun">.</span><span class="pln">y </span><span class="pun">+=</span><span class="pln"> currentLocation</span><span class="pun">.</span><span class="pln">y</span><span class="pun">-</span><span class="pln">originalLocation</span><span class="pun">.</span><span class="pln">y</span><span class="pun">;</span><span class="pln"> </span></code></li><li class="L5"><code><span class="pln">    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">view</span><span class="pun">.</span><span class="pln">frame </span><span class="pun">=</span><span class="pln"> frame</span><span class="pun">;</span></code></li><li class="L6"><code><span class="pun">}</span></code></li></ol></pre><div class="md-section-divider"></div><h3 data-anchor-id="zvqz" id="2手势">2.手势</h3><p data-anchor-id="2ceo"><strong>UIGestureRecognizer</strong>是一个手势基类，提供了简单的手势实现方式。衍生类如下：</p><table data-anchor-id="se8x" class="table table-striped-white table-bordered">
+<thead>
+<tr>
+ <th>类</th>
+ <th style="text-align:left;">说明</th>
+ <th>属性</th>
+</tr>
+</thead>
+<tbody><tr>
+ <td>UITabGestureRecognizer</td>
+ <td style="text-align:left;">轻击手势</td>
+ <td>1.<strong>numberOfTapsRequired</strong> 点击次数　　　 2.<strong>numberOfTouchesRequired</strong> 手指个数</td>
+</tr>
+<tr>
+ <td>UIPinchGestureRecognizer</td>
+ <td style="text-align:left;">捏合手势</td>
+ <td><strong>scale</strong>：初始值为1，两手指距离减少则scale不断变小；两个手指重合则变为0；　　<strong>velocity</strong>：初始值为0，手指移动的相对速度，两手指距离减少为负数，速度越快数值越少；两手指距离变大为整数，速度越快数值越大。</td>
+</tr>
+<tr>
+ <td>UIRotationGestureRecognizer</td>
+ <td style="text-align:left;">旋转手势</td>
+ <td><strong>rotation</strong>：初始值为0，两手指的旋转弧度，顺时针旋转为正数，逆时针旋转为负数。　　<strong>velocity</strong>：初始值为0手指一动的相对速度，顺时针为正数越快值越大；逆时针为负越快越小。</td>
+</tr>
+<tr>
+ <td>UISwipeGestureRecognizer</td>
+ <td style="text-align:left;">轻扫手势</td>
+ <td><strong>numberOfTouchesRequired</strong>： 手指个数　　　　       <strong>direction</strong>：手势方向，如UISwipeGestureRecognizerDirectionRight 向右</td>
+</tr>
+<tr>
+ <td>UIPanGestureRecognizer</td>
+ <td style="text-align:left;">拖拽手势</td>
+ <td><strong>mininumNumberOfTouches</strong>：默认值为1，最少手指数量　<strong>maxnumNumberOfTouches</strong>：最大手指数量</td>
+</tr>
+<tr>
+ <td>UILongPressGestrueRecognizer</td>
+ <td style="text-align:left;">长按手势</td>
+ <td><strong>numberOfTapsRequired</strong>：默认值为0，轻击的次数　　<strong>numberOfTouchesRequired</strong>：默认值是1，手指数量。　　<strong>mininumPressDuration</strong>：默认值为0.5，单位是秒。　　<strong>allowableMovement</strong>：默认值为10，单位是像素．</td>
+</tr>
+</tbody></table><p data-anchor-id="4bp5">手势相比触碰事件的好处是可以直接使用已经定义好的手势，开发者不用自己计算手指移动轨迹。UIView关于手势的方法：</p><table data-anchor-id="07wk" class="table table-striped-white table-bordered">
+<thead>
+<tr>
+ <th>方法</th>
+ <th style="text-align:left;">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+ <td><code>-(void) addGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer</code></td>
+ <td style="text-align:left;">添加手势</td>
+</tr>
+<tr>
+ <td><code>-(void) removeGestureRecognizer:(UIGestureRecognizer *)getureRecognizer</code></td>
+ <td style="text-align:left;">删除一个手势。</td>
+</tr>
+<tr>
+ <td><code>-(BOOL) gestureRecognizerShouldBegan:(UIGestureRecognizer *)gestureRecognizer</code></td>
+ <td style="text-align:left;">询问是否开始执行该手势，默认返回YES。</td>
+</tr>
+</tbody></table><p data-anchor-id="qgyr">三个初始化方法 <br>
+<code>-(id) initWithTarget:action:</code>  <br>
+<code>-(void)addTarget:action:</code> <br>
+<code>-(void)removeTarget:action:</code></p><p data-anchor-id="vh8h">手势的实际应用 <br>
+1. 添加一个拖拽手势给aView</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="k1cp"><ol class="linenums"><li class="L0"><code><span class="com">//创建一个平移手势对象，该对象可以调用handelPan：方法</span></code></li><li class="L1"><code><span class="typ">UIPanGestureRecognizer</span><span class="pln"> </span><span class="pun">*</span><span class="pln">panGes </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[[</span><span class="typ">UIPanGestureRecognizer</span><span class="pln"> alloc</span><span class="pun">]</span><span class="pln"> initWithTarget</span><span class="pun">:</span><span class="kwd">self</span><span class="pln"> action</span><span class="pun">:</span><span class="lit">@selector</span><span class="pun">(</span><span class="pln">handelPan</span><span class="pun">:)];</span></code></li><li class="L2"><code><span class="pun">[</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">aView addGestureRecognizer</span><span class="pun">:</span><span class="pln">panGes</span><span class="pun">];</span></code></li></ol></pre><p data-anchor-id="9tsz">2.处理手势的方法如下</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="qa24"><ol class="linenums"><li class="L0"><code><span class="pun">-(</span><span class="kwd">void</span><span class="pun">)</span><span class="pln">handelPan</span><span class="pun">:(</span><span class="typ">UIPanGestureRecognizer</span><span class="pun">*)</span><span class="pln">gestureRecognizer</span><span class="pun">{</span></code></li><li class="L1"><code><span class="pln">    </span><span class="com">//获取平移手势对象在self.view的位置点，并将这个点作为self.aView的center,这样就实现了拖动的效果</span></code></li><li class="L2"><code><span class="pln">    </span><span class="typ">CGPoint</span><span class="pln"> curPoint </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln">gestureRecognizer locationInView</span><span class="pun">:</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">view</span><span class="pun">];</span></code></li><li class="L3"><code><span class="pln">    </span><span class="pun">[</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">aView setCenter</span><span class="pun">:</span><span class="pln">curPoint</span><span class="pun">];</span></code></li><li class="L4"><code><span class="pun">}</span></code></li></ol></pre><div class="md-section-divider"></div><h2 data-anchor-id="nzet" id="三课程作业"><strong>三、课程作业</strong></h2><blockquote data-anchor-id="ikz5" class="white-blockquote">
+  <ul>
+  <li>利用UItouch拖动图片UIImageView.</li>
+  <li>利用UIPanGestureRecognizer实现拖动图片。</li>
+  <li>利用UITabGestureRecognizer给图片和或者View添加点击事件。</li>
+  </ul>
+</blockquote></div>
+</body>
+</html>

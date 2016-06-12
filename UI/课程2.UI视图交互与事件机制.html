@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html class="theme theme-white">
+<head>
+<meta charset="utf-8">
+<title>课程2.UI视图交互与事件机制</title>
+<link href="https://www.zybuluo.com/static/assets/template-theme-white.css" rel="stylesheet" media="screen">
+</head>
+<body class="theme theme-white">
+<div id="wmd-preview" class="wmd-preview wmd-preview-full-reader"><div class="md-section-divider"></div><img src="http://static.zybuluo.com/zhuoming/9y9ocj9x0iw2k87m7br254g1/logo.png" width="300" height="100"><span style="float:right;" data-anchor-id="u0kc"><b>求知若渴 求真教育</b></span><div class="md-section-divider"></div><h1 data-anchor-id="epfk" id="课程2ui视图交互与事件机制">课程2.UI视图交互与事件机制</h1><p data-anchor-id="xq2h"><code>iOS</code> <code>UI</code></p><hr><p data-anchor-id="nnzr"><div class="toc"><div class="toc">
+<ul>
+<li><a href="#课程2ui视图交互与事件机制">课程2.UI视图交互与事件机制</a><ul>
+<li><a href="#一学习目标">一、学习目标</a></li>
+<li><a href="#二课程内容">二、课程内容</a><ul>
+<li><a href="#1了解什么是ui事件">1.了解什么是UI事件</a></li>
+<li><a href="#2uibutton的使用">2.UIButton的使用</a><ul>
+<li><a href="#uibutton的继承关系">UIButton的继承关系</a></li>
+<li><a href="#uibutton的常用属性和方法">UIButton的常用属性和方法</a></li>
+<li><a href="#uibutton的实际应用">UIButton的实际应用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#三课程作业">三、课程作业</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</p><hr><div class="md-section-divider"></div><h2 data-anchor-id="kr82" id="一学习目标"><strong>一、学习目标</strong></h2><pre data-anchor-id="odpc"><code>*   学习事件驱动类控件使用方法
+*   了解UI事件机制
+*   精通UIButton使用和事件机制
+</code></pre><hr><div class="md-section-divider"></div><h2 data-anchor-id="h9ay" id="二课程内容"><strong>二、课程内容</strong></h2><div class="md-section-divider"></div><h3 data-anchor-id="zojn" id="1了解什么是ui事件"><strong>1.了解什么是UI事件</strong></h3><p data-anchor-id="tufc">对于iOS设备用户来说，他们操作设备的方式主要有三种：触摸屏幕、晃动设备、通过遥控设施控制设备。对应的事件类型有以下三种：</p><ul data-anchor-id="zln2">
+<li>触屏事件（Touch Event）</li>
+<li>运动事件（Motion Event） </li>
+<li>远端控制事件（Remote-Control <br>
+Event）</li>
+</ul><p data-anchor-id="j1to">本章节我们主要了解其中的触屏事件（Touch Event）。</p><p data-anchor-id="g6cg"><strong>响应者链（Responder Chain）</strong> <br>
+  先来说说响应者对象（Responder Object），顾名思义，指的是有响应和处理事件能力的对象。响应者链就是由一系列的响应者对象构成的一个层次结构。</p><p data-anchor-id="yb4t">UIResponder是所有响应对象的基类，在UIResponder类中定义了处理上述各种事件的接口。我们熟悉的UIApplication、 UIViewController、UIWindow和所有继承自UIView的UIKit类都直接或间接的继承自UIResponder，所以它们的实例都是可以构成响应者链的响应者对象。 <br>
+  图一展示了响应者链的基本构成： <br>
+<img src="http://static.zybuluo.com/zhuoming/1s81cr7k0k7zfulu39u8wsyj/20130707181937406.jpeg" alt="20130707181937406.jpeg-16kB" title=""></p><p data-anchor-id="irli">从图一中可以看到，响应者链有以下特点：</p><p data-anchor-id="stz8">1、响应者链通常是由视图（UIView）构成的；</p><p data-anchor-id="04iv">2、一个视图的下一个响应者是它视图控制器（UIViewController）（如果有的话），然后再转给它的父视图（Super View）；</p><p data-anchor-id="g7mt">3、视图控制器（如果有的话）的下一个响应者为其管理的视图的父视图；</p><p data-anchor-id="fgrd">4、单例的窗口（UIWindow）的内容视图将指向窗口本身作为它的下一个响应者</p><p data-anchor-id="paee">需要指出的是，Cocoa Touch应用不像Cocoa应用，它只有一个UIWindow对象，因此整个响应者链要简单一点；</p><p data-anchor-id="pimd">5、单例的应用（UIApplication）是一个响应者链的终点，它的下一个响应者指向nil，以结束整个循环。</p><p data-anchor-id="g2vt"><strong>事件分发（Event Delivery）</strong> <br>
+第一响应者（First responder）指的是当前接受触摸的响应者对象（通常是一个UIView对象），即表示当前该对象正在与用户交互，它是响应者链的开端。整个响应者链和事件分发的使命都是找出第一响应者。</p><p data-anchor-id="i26a">UIWindow对象以消息的形式将事件发送给第一响应者，使其有机会首先处理事件。如果第一响应者没有进行处理，系统就将事件（通过消息）传递给响应者链中的下一个响应者，看看它是否可以进行处理。</p><p data-anchor-id="ic7s">iOS系统检测到手指触摸(Touch)操作时会将其打包成一个UIEvent对象，并放入当前活动Application的事件队列，单例的UIApplication会从事件队列中取出触摸事件并传递给单例的UIWindow来处理，UIWindow对象首先会使用hitTest:withEvent:方法寻找此次Touch操作初始点所在的视图(View)，即需要将触摸事件传递给其处理的视图，这个过程称之为hit-test view。</p><p data-anchor-id="5qpu">UIWindow实例对象会首先在它的内容视图上调用hitTest:withEvent:，此方法会在其视图层级结构中的每个视图上调用pointInside:withEvent:（该方法用来判断点击事件发生的位置是否处于当前视图范围内，以确定用户是不是点击了当前视图），如果pointInside:withEvent:返回YES，则继续逐级调用，直到找到touch操作发生的位置，这个视图也就是要找的hit-test view。 <br>
+hitTest:withEvent:方法的处理流程如下: <br>
+首先调用当前视图的pointInside:withEvent:方法判断触摸点是否在当前视图内； <br>
+若返回NO,则hitTest:withEvent:返回nil; <br>
+若返回YES,则向当前视图的所有子视图(subviews)发送hitTest:withEvent:消息，所有子视图的遍历顺序是从最顶层视图一直到到最底层视图，即从subviews数组的末尾向前遍历，直到有子视图返回非空对象或者全部子视图遍历完毕； <br>
+若第一次有子视图返回非空对象，则hitTest:withEvent:方法返回此对象，处理结束； <br>
+如所有子视图都返回非，则hitTest:withEvent:方法返回自身(self)。</p><p data-anchor-id="6yzh">我们来个示例图看看 <br>
+<img src="http://static.zybuluo.com/zhuoming/mnycyb6sbb6w0g6mrms50rcj/8.png" alt="8.png-13.7kB" title=""></p><p data-anchor-id="ue41">加入用户点击了View E，下面结合图二介绍hit-test view的流程：</p><p data-anchor-id="68vi">1、A是UIWindow的根视图，因此，UIWindwo对象会首相对A进行hit-test；</p><p data-anchor-id="blro">2、显然用户点击的范围是在A的范围内，因此，pointInside:withEvent:返回了YES，这时会继续检查A的子视图；</p><p data-anchor-id="2wkf">3、这时候会有两个分支，B和C：</p><p data-anchor-id="nht0">点击的范围不再B内，因此B分支的pointInside:withEvent:返回NO，对应的hitTest:withEvent:返回nil；</p><p data-anchor-id="hk0i">点击的范围在C内，即C的pointInside:withEvent:返回YES；</p><p data-anchor-id="yyha">4、这时候有D和E两个分支：</p><p data-anchor-id="8zel">点击的范围不再D内，因此D的pointInside:withEvent:返回NO，对应的hitTest:withEvent:返回nil；</p><p data-anchor-id="hxz4">点击的范围在E内，即E的pointInside:withEvent:返回YES，由于E没有子视图（也可以理解成对E的子视图进行hit-test时返回了nil），因此，E的hitTest:withEvent:会将E返回，再往回回溯，就是C的hitTest:withEvent:返回E---&gt;&gt;A的hitTest:withEvent:返回E。</p><p data-anchor-id="55oc">至此，本次点击事件的第一响应者就通过响应者链的事件分发逻辑成功的找到了。</p><p data-anchor-id="u8am">不难看出，这个处理流程有点类似二分搜索的思想，这样能以最快的速度，最精确地定位出能响应触摸事件的UIView。</p><hr><div class="md-section-divider"></div><h3 data-anchor-id="5n8m" id="2uibutton的使用"><strong>2.UIButton的使用</strong></h3><div class="md-section-divider"></div><h4 data-anchor-id="8ab0" id="uibutton的继承关系">UIButton的继承关系</h4><p data-anchor-id="yqu1">让我们看一张UIKit的继承图，我们可以注意到UIButton并不是直接继承自UIView，而是继承于<strong>UIControl</strong>。 <br>
+<img src="http://static.zybuluo.com/zhuoming/prqzikchdulp4g61tftkdlsq/8EA2077E-30E9-4D03-927B-85AD7CE942A6.png" alt="8EA2077E-30E9-4D03-927B-85AD7CE942A6.png-98.8kB" title=""></p><blockquote data-anchor-id="vhek" class="white-blockquote">
+  <p>UIControl对象采用了一种新的事件处理机制，将前一节直接处理的触摸事件转换成简单操作，这样可以无需关心用户访问控件的具体方式。触摸事件到达UIControl对象（由响应者链派遣）后，在UIResponder的方法中（如touchBegan:withEvent）中，UIControl将标准的触摸事件转换为特殊的控件事件，简单的理解就是，UIControl把复杂的触摸事件封装成了简单的易于使用的控件事件。例如通过UIControl对象处理后，按下按钮的事件就被封装成一个控件事件，而不用去判断触摸屏幕的整个操作过程。</p>
+</blockquote><div class="md-section-divider"></div><h4 data-anchor-id="t6g9" id="uibutton的常用属性和方法">UIButton的常用属性和方法</h4><table data-anchor-id="lg4a" class="table table-striped-white table-bordered">
+<thead>
+<tr>
+ <th>UIButton常用属性和方法</th>
+ <th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+ <td>数据结构</td>
+ <td><code>UIButtonType、UIControlState、UIControlEvents</code></td>
+</tr>
+<tr>
+ <td>构造方法</td>
+ <td><code>+ (id)buttonWithType:(UIButtonType)buttonType;</code></td>
+</tr>
+<tr>
+ <td>设置某个状态的文本</td>
+ <td><code>- (void)setTitle:(NSString *)title forState:(UIControlState)state;</code></td>
+</tr>
+<tr>
+ <td>设置某个状态的字体颜色</td>
+ <td><code>- (void)setTitleColor:(UIColor *)color                     forState:(UIControlState)state</code></td>
+</tr>
+<tr>
+ <td>设置图片</td>
+ <td><code>-(void)setImage:(UIImage*)image            forState:(UIControlState)state;</code></td>
+</tr>
+</tbody></table><table data-anchor-id="jp70" class="table table-striped-white table-bordered">
+<thead>
+<tr>
+ <th>UIControl常用属性和方法</th>
+ <th>定义</th>
+</tr>
+</thead>
+<tbody><tr>
+ <td>是否可用</td>
+ <td><code>@property(nonatomic,getter=isEnabled)BOOL enabled;</code></td>
+</tr>
+<tr>
+ <td>是否选中</td>
+ <td><code>@property(nonatomic,getter=isSelected) BOOL selected;</code></td>
+</tr>
+<tr>
+ <td>是否高亮</td>
+ <td><code>@property(nonatomic,getter=isHighlighted)BOOL highlighted;</code></td>
+</tr>
+<tr>
+ <td>添加一个响应事件</td>
+ <td><code>- (void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;</code></td>
+</tr>
+<tr>
+ <td>删除一个响应事件</td>
+ <td><code>- (void)removeTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;</code></td>
+</tr>
+</tbody></table><p data-anchor-id="j608"><strong>UIButtonType</strong> <br>
+能够定义的button类型有以下6种</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="odvh"><ol class="linenums"><li class="L0"><code><span class="kwd">typedef</span><span class="pln"> </span><span class="kwd">enum</span><span class="pln"> </span><span class="pun">{</span></code></li><li class="L1"><code><span class="typ">UIButtonTypeCustom</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="com">// 自定义风格</span></code></li><li class="L2"><code><span class="typ">UIButtonTypeRoundedRect</span><span class="pun">,</span><span class="com">// 圆角矩形</span></code></li><li class="L3"><code><span class="typ">UIButtonTypeDetailDisclosure</span><span class="pun">,</span><span class="com">// 蓝色小箭头按钮，主要做详细说明用</span></code></li><li class="L4"><code><span class="typ">UIButtonTypeInfoLight</span><span class="pun">,</span><span class="pln"> </span><span class="com">//亮色感叹号</span></code></li><li class="L5"><code><span class="typ">UIButtonTypeInfoDark</span><span class="pun">,</span><span class="pln"> </span><span class="com">//暗色感叹号</span></code></li><li class="L6"><code><span class="typ">UIButtonTypeContactAdd</span><span class="pun">,</span><span class="pln"> </span><span class="com">//十字加号按钮</span></code></li><li class="L7"><code><span class="pun">}</span><span class="pln"> </span><span class="typ">UIButtonType</span><span class="pun">;</span></code></li></ol></pre><p data-anchor-id="hfwm"><strong>UIControlState</strong> <br>
+这个参数的作用是定义按钮的文字或图片在何种状态下才会显现</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="r297"><ol class="linenums"><li class="L0"><code><span class="kwd">typedef</span><span class="pln"> NS_OPTIONS</span><span class="pun">(</span><span class="typ">NSUInteger</span><span class="pun">,</span><span class="pln"> </span><span class="typ">UIControlState</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></code></li><li class="L1"><code><span class="pln">    </span><span class="typ">UIControlStateNormal</span><span class="pln">       </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="com">//常规状态显现 </span></code></li><li class="L2"><code><span class="pln">    </span><span class="typ">UIControlStateHighlighted</span><span class="pln">  </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="pun">&lt;&lt;</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="com">// 高亮状态显现</span></code></li><li class="L3"><code><span class="pln">    </span><span class="typ">UIControlStateDisabled</span><span class="pln">     </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="pun">&lt;&lt;</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="com">// 禁用的状态才会显现</span></code></li><li class="L4"><code><span class="pln">    </span><span class="typ">UIControlStateSelected</span><span class="pln">     </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="pun">&lt;&lt;</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="com">//选中状态 </span></code></li><li class="L5"><code><span class="pln">    </span><span class="typ">UIControlStateApplication</span><span class="pln">  </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0x00FF0000</span><span class="pun">,</span><span class="com">// 当应用程序标志时 </span></code></li><li class="L6"><code><span class="pln">    </span><span class="typ">UIControlStateReserved</span><span class="pln">     </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0xFF000000</span><span class="com">//为内部框架预留，可以不管他 </span></code></li><li class="L7"><code><span class="pun">};</span></code></li></ol></pre><p data-anchor-id="i6p2"><strong>UIControlEvents</strong> <br>
+这个参数的作用区分用户不同的操作以作出不同的反应</p><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="fgnv"><ol class="linenums"><li class="L0"><code><span class="typ">UIControlEventTouchDown</span></code></li><li class="L1"><code><span class="pun">单点触摸按下事件：用户点触屏幕，或者又有新手指落下的时候。</span></code></li><li class="L2"><code><span class="typ">UIControlEventTouchDownRepeat</span></code></li><li class="L3"><code><span class="pun">多点触摸按下事件，点触计数大于</span><span class="lit">1</span><span class="pun">：用户按下第二、三、或第四根手指的时候。</span></code></li><li class="L4"><code><span class="typ">UIControlEventTouchDragInside</span></code></li><li class="L5"><code><span class="pun">当一次触摸在控件窗口内拖动时。</span></code></li><li class="L6"><code><span class="typ">UIControlEventTouchDragOutside</span></code></li><li class="L7"><code><span class="pun">当一次触摸在控件窗口之外拖动时。</span></code></li><li class="L8"><code><span class="typ">UIControlEventTouchDragEnter</span></code></li><li class="L9"><code><span class="pun">当一次触摸从控件窗口之外拖动到内部时。</span></code></li><li class="L0"><code><span class="typ">UIControlEventTouchDragExit</span></code></li><li class="L1"><code><span class="pun">当一次触摸从控件窗口内部拖动到外部时。</span></code></li><li class="L2"><code><span class="typ">UIControlEventTouchUpInside</span></code></li><li class="L3"><code><span class="pun">所有在控件之内触摸抬起事件。</span></code></li><li class="L4"><code><span class="typ">UIControlEventTouchUpOutside</span></code></li><li class="L5"><code><span class="pun">所有在控件之外触摸抬起事件(点触必须开始与控件内部才会发送通知,最常用)。</span></code></li><li class="L6"><code><span class="typ">UIControlEventTouchCancel</span></code></li><li class="L7"><code><span class="pun">所有触摸取消事件，即一次触摸因为放上了太多手指而被取消，或者被上锁或者电话呼叫打断。</span></code></li><li class="L8"><code><span class="typ">UIControlEventTouchChanged</span></code></li><li class="L9"><code><span class="pun">当控件的值发生改变时，发送通知。用于滑块、分段控件、以及其他取值的控件。你可以配置滑块控件何时发送通知，在滑块被放下时发送，或者在被拖动时发送。</span></code></li><li class="L0"><code><span class="typ">UIControlEventEditingDidBegin</span></code></li><li class="L1"><code><span class="pun">当文本控件中开始编辑时发送通知。</span></code></li><li class="L2"><code><span class="typ">UIControlEventEditingChanged</span></code></li><li class="L3"><code><span class="pun">当文本控件中的文本被改变时发送通知。</span></code></li><li class="L4"><code><span class="typ">UIControlEventEditingDidEnd</span></code></li><li class="L5"><code><span class="pun">当文本控件中编辑结束时发送通知。</span></code></li><li class="L6"><code><span class="typ">UIControlEventEditingDidOnExit</span></code></li><li class="L7"><code><span class="pun">当文本控件内通过按下回车键（或等价行为）结束编辑时，发送通知。</span></code></li><li class="L8"><code><span class="typ">UIControlEventAlltouchEvents</span></code></li><li class="L9"><code><span class="pun">通知所有触摸事件。</span></code></li><li class="L0"><code><span class="typ">UIControlEventAllEditingEvents</span></code></li><li class="L1"><code><span class="pun">通知所有关于文本编辑的事件。</span></code></li><li class="L2"><code><span class="typ">UIControlEventAllEvents</span></code></li><li class="L3"><code><span class="pun">通知所有事件。</span></code></li></ol></pre><div class="md-section-divider"></div><h4 data-anchor-id="k5z5" id="uibutton的实际应用">UIButton的实际应用</h4><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="h8zl"><ol class="linenums"><li class="L0"><code><span class="com">//这里创建一个按钮</span></code></li><li class="L1"><code><span class="pln">    </span><span class="typ">UIButton</span><span class="pln"> </span><span class="pun">*</span><span class="pln">btn </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[[</span><span class="typ">UIButton</span><span class="pln"> alloc</span><span class="pun">]</span><span class="pln">initWithFrame</span><span class="pun">:</span><span class="typ">CGRectMake</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">280</span><span class="pun">,</span><span class="pln"> </span><span class="lit">40</span><span class="pun">)];</span></code></li><li class="L2"><code><span class="pln">    btn</span><span class="pun">.</span><span class="pln">center </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window</span><span class="pun">.</span><span class="pln">center</span><span class="pun">;</span></code></li><li class="L3"><code><span class="pln">    </span><span class="com">//button背景色</span></code></li><li class="L4"><code><span class="pln">    btn</span><span class="pun">.</span><span class="pln">backgroundColor </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="typ">UIColor</span><span class="pln"> blackColor</span><span class="pun">];</span></code></li><li class="L5"><code><span class="pln">    </span><span class="com">//显示控件</span></code></li><li class="L6"><code><span class="pln">    </span><span class="pun">[</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window addSubview</span><span class="pun">:</span><span class="pln">btn</span><span class="pun">];</span></code></li><li class="L7"><code><span class="pln">    </span><span class="com">//设置button标题</span></code></li><li class="L8"><code><span class="pln">    </span><span class="pun">[</span><span class="pln">btn setTitle</span><span class="pun">:@</span><span class="str">"点击我"</span><span class="pln"> forState</span><span class="pun">:</span><span class="typ">UIControlStateNormal</span><span class="pun">];</span></code></li><li class="L9"><code><span class="pln">    </span><span class="com">// 添加UIControlEventTouchUpInside时间的处理方法 btnClick:</span></code></li><li class="L0"><code><span class="pln">    </span><span class="pun">[</span><span class="pln">btn addTarget</span><span class="pun">:</span><span class="kwd">self</span><span class="pln"> action</span><span class="pun">:</span><span class="lit">@selector</span><span class="pun">(</span><span class="pln">btnClick</span><span class="pun">:)</span><span class="pln"> forControlEvents</span><span class="pun">:</span><span class="typ">UIControlEventTouchUpInside</span><span class="pun">];</span></code></li></ol></pre><div class="md-section-divider"></div><pre class="prettyprint linenums prettyprinted" data-anchor-id="qawq"><ol class="linenums"><li class="L0"><code><span class="com">/**</span></code></li><li class="L1"><code><span class="com"> *  响应btn的点击事件,把btn的位置往上移动10</span></code></li><li class="L2"><code><span class="com"> *</span></code></li><li class="L3"><code><span class="com"> *  @param btn 触发事件的按钮</span></code></li><li class="L4"><code><span class="com"> */</span></code></li><li class="L5"><code><span class="pun">-</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">void</span><span class="pun">)</span><span class="pln">btnClick</span><span class="pun">:(</span><span class="typ">UIButton</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">btn</span></code></li><li class="L6"><code><span class="pun">{</span></code></li><li class="L7"><code><span class="pln">    </span><span class="typ">NSLog</span><span class="pun">(@</span><span class="str">"按钮被点击了"</span><span class="pun">);</span></code></li><li class="L8"><code><span class="pln">    </span><span class="typ">CGRect</span><span class="pln"> frame </span><span class="pun">=</span><span class="pln"> btn</span><span class="pun">.</span><span class="pln">frame</span><span class="pun">;</span></code></li><li class="L9"><code><span class="pln">    frame</span><span class="pun">.</span><span class="pln">origin</span><span class="pun">.</span><span class="pln">y </span><span class="pun">-=</span><span class="pln"> </span><span class="lit">10</span><span class="pun">;</span></code></li><li class="L0"><code><span class="pln">    btn</span><span class="pun">.</span><span class="pln">frame </span><span class="pun">=</span><span class="pln"> frame</span><span class="pun">;</span></code></li><li class="L1"><code><span class="pun">}</span></code></li></ol></pre><p data-anchor-id="0lqv">运行效果如下 <br>
+<img src="http://static.zybuluo.com/zhuoming/uosud6qymlji6izcqc4ljkrh/btn.gif" alt="btn.gif-135.2kB" title=""></p><div class="md-section-divider"></div><h2 data-anchor-id="32e7" id="三课程作业">三、课程作业</h2><blockquote data-anchor-id="zwvi" class="white-blockquote">
+  <p>1、创建不同系统样式的UIButton添加到UIWindow上。 <br>
+  2、创建自定义的UIButton,试试给UIButton设置不同UIImage。  <br>
+  3、给刚刚创建的UIButton添加点击事件，每点击一次宽高都加10。 <br>
+  4、根据下图创建多个UIButton，并测试标出3个点击事件和范围 <br>
+  <img src="http://static.zybuluo.com/zhuoming/xwza96swx54mcq3mkccd283w/btn%E4%B9%A0%E9%A2%98.png" alt="btn习题.png-24.9kB" title=""></p>
+</blockquote></div>
+</body>
+</html>
