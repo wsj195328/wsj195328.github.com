@@ -15,17 +15,17 @@ $lightGray: #eee;
 $white: #fff;
 
 // Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: Georgia, serif;
+$helvetica: Helvetica, Arial, monospace;
+$helveticaNeue: "Menlo", "Meslo LG", monospace;
+$georgia: Georgia, monospace;
 
 // Fonts
-$base-font: 'Spoqa Han Sans', 'Source Sans Pro', 'Apple SD Gothic Neo', 'Nanum Barun Gothic', 'Nanum Gothic', 'Verdana', 'Arial', 'Dotum', sans-serif;
-$code-font: 'Menlo', 'Courier New', 'Monaco', 'Spoqa Han Sans', monospace;
+$base-font: "Menlo", "Meslo LG",Tahoma,Helvetica,Arial,'宋体',sans-serif;
+$code-font: 'Menlo', 'Courier New', 'Monaco', 'Spoqa Han Sans', sans-serif;
 
 // Font sizes
-$base-font-size: 18px;
-$small-font-size: 14px;
+$base-font-size: 16px;
+$small-font-size: 13px;
 
 // Colors
 $base-color: $oc-gray-8;

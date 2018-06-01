@@ -6,7 +6,7 @@
 name: JuncoWang
 
 # Short bio or description (displayed in the header)
-description: —— 用心做好每一件事情
+description: 用心做好每一件事情
 
 #
 # Flags below are optional
@@ -20,13 +20,13 @@ avatar: http://oh366ymwj.bkt.clouddn.com/WechatIMG122.jpeg
 # and URL Link(e.g. 'Theme' tab below) tabs. If you don't need one, just delete
 # it from the list(Delete '- name: ' and 'url: ', too!)
 navigation:
-  - name: Todo
+  - name: TODO
     url: /
   - name: Archive
     url: /archive
   - name: Tags
     url: /tags
-  - name: About
+  - name: AboutMe
     url: /about
 
 # Pagination
@@ -36,10 +36,10 @@ paginate: 5
 footer-links:
   behance: # https://www.behance.net/<username>
   dribbble:
-  email:
-  facebook:
-  flickr:
   github: wsj195328
+  facebook: wsj195328
+  email:
+  flickr:
   googleplus: # anything in your profile username that comes after plus.google.com/
   instagram:
   linkedin:
@@ -47,7 +47,7 @@ footer-links:
   rss: # just type anything here for a working RSS icon
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   tumblr: # https://<username>.tumblr.com
-  twitter: jekyllrb
+  twitter: 291876969
   youtube: # channel/<your_long_string> or user/<user-name>
 
 # Text under the icons in footer
@@ -55,14 +55,15 @@ footer-text: © 2018 Junco Wang
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
 # You can find your shortname on the Settings page of your Disqus account
-disqus: # <username>.disqus.com
+disqus: wsj195328.disqus.com
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics:
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url: htts://oclog.pw
+url: https://sslog.cn   # with the https protocol
+enforce_ssl: sslog.cn   # without any protocol
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
