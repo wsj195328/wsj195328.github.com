@@ -28,7 +28,7 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 61.8%;
+  max-width: 810px;
   padding: 0 10px;
   width: 100%;
 }
@@ -455,7 +455,8 @@ nav {
   }
 
   .read-more {
-    font-size: 14px;
+    font-size: 16px;
+    color: $oc-teal-8;
   }
 }
 

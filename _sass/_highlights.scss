@@ -13,13 +13,13 @@ code.highlighter-rouge {
 pre.highlight {
   font-size: $small-font-size;
   padding: .8em 1.2em .8em 1.2em;
-  border: 1px solid $oc-gray-4;
+  border: .5px dotted $oc-teal-8;
   border-radius: 3px;
   margin: 1em 0;
   overflow: scroll;
 }
 
-.highlight  { background: rgba(#FFFAE8,0.6); }
+.highlight  { background: rgba(#FFFAE8,0.3); }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
 .highlight .k { font-weight: bold } /* Keyword */
