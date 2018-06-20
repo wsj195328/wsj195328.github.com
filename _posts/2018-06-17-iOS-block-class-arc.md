@@ -10,9 +10,9 @@ comments: true
 
  ---
  
-## 全局block形态
+## 1、全局block形态
  
-```
+```c#
 - (void)globalBlock {
     
     //__NSGlobalBlock__全局块
@@ -27,15 +27,17 @@ comments: true
 }
 
 ```
-![1](http://ov2frenna.bkt.clouddn.com/blog/20180617131510.png?imageView2/0/q/100|watermark/2/text/SnVuY29XYW5n/font/5qW35L2T/fontsize/1000/fill/I0IzRjA5MA==/dissolve/55/gravity/SouthEast/dx/10/dy/44)
+
+
+![1](http://ov2frenna.bkt.clouddn.com/blog/20180617131510.png)
 
 ARC环境下不管全局有没有引用，都是 `__NSGlobalBlock__ `
 
 ---
  
-## 栈区block形态
+## 2、栈区block形态
 
-```
+```c#
 *第一种*
 - (void)stackBlock {
     
@@ -75,9 +77,9 @@ ARC环境下不管全局有没有引用，都是 `__NSGlobalBlock__ `
 
 ---
 
-## 堆区block形态
+## 3、堆区block形态
 
-```
+```c#
 - (void)headBlock {
     
     //__NSMallocBlock__
@@ -92,7 +94,7 @@ ARC环境下不管全局有没有引用，都是 `__NSGlobalBlock__ `
 
 ----
 
-## __block修饰和static修饰的区别
+## 4、__block修饰和static修饰的区别
 
 `__block` 
 
@@ -106,7 +108,7 @@ ARC环境下不管全局有没有引用，都是 `__NSGlobalBlock__ `
     
   --- 
   
-## Block中copy、retain、release操作总结
+## 5、Block中copy、retain、release操作总结
 * SGlobalBlock：retain、copy、release操作都无效；
 
 * NSStackBlock：retain、release操作无效，必须注意的是，NSStackBlock在函数返回后，Block内存将被回收。即使retain也没用。容易犯的错误是[[mutableAarry addObject:stackBlock]，（补：在ARC中不用担心此问题，因为ARC中会默认将实例化的block拷贝到堆上）在函数出栈后，从mutableAarry中取到的stackBlock已经被回收，变成了野指针。正确的做法是先将stackBlock copy到堆上，然后加入数组：[mutableAarry addObject:[[stackBlock copy] autorelease]]。支持copy，copy之后生成新的NSMallocBlock类型对象。
